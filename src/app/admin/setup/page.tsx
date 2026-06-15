@@ -54,7 +54,7 @@ export default function AdminSetupPage() {
     ];
 
     try {
-      const { error } = await supabase.from("worksheets").insert(MOCK_WORKSHEETS);
+      const { error } = await (supabase as any).from("worksheets").insert(MOCK_WORKSHEETS);
       if (error) throw error;
       setStatus("success");
       setMessage("เพิ่มข้อมูลตั้งต้นเรียบร้อยแล้ว!");
