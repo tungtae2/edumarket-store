@@ -119,10 +119,14 @@ export default async function WorksheetDetailPage({ params }: { params: Promise<
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 เพิ่มลงตะกร้า
               </Button>
-              <Button className="bg-white text-black hover:bg-slate-100 rounded-2xl py-6 text-lg font-bold manga-border shadow-[3px_3px_0_0_#000] w-full">
-                <FileText className="w-5 h-5 mr-2" />
-                ดูตัวอย่าง PDF
-              </Button>
+              {worksheet.preview_pdf_url && (
+                <a href={worksheet.preview_pdf_url} target="_blank" rel="noopener noreferrer" className="block w-full">
+                  <Button className="bg-white text-black hover:bg-slate-100 rounded-2xl py-6 text-lg font-bold manga-border shadow-[3px_3px_0_0_#000] w-full">
+                    <FileText className="w-5 h-5 mr-2" />
+                    ดูตัวอย่าง PDF
+                  </Button>
+                </a>
+              )}
             </div>
 
             <div className="bg-white p-6 manga-border shadow-[4px_4px_0_0_rgba(0,0,0,0.1)]">

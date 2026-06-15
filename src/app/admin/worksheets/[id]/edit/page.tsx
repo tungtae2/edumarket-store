@@ -31,6 +31,7 @@ export default function EditWorksheetPage() {
 
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [previewPdfFile, setPreviewPdfFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function fetchWorksheet() {
@@ -54,10 +55,11 @@ export default function EditWorksheetPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "image" | "pdf") => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "image" | "pdf" | "preview_pdf") => {
     if (e.target.files && e.target.files[0]) {
       if (type === "image") setCoverImage(e.target.files[0]);
       if (type === "pdf") setPdfFile(e.target.files[0]);
+      if (type === "preview_pdf") setPreviewPdfFile(e.target.files[0]);
     }
   };
 
@@ -94,6 +96,19 @@ export default function EditWorksheetPage() {
         finalPdfUrl = supabase.storage.from('worksheet-pdfs').getPublicUrl(pdfData.path).data.publicUrl;
       }
 
+      // 2.5 Upload Preview PDF if changed
+      let finalPreviewUrl = undefined;
+      if (previewPdfFile) {
+        const previewExt = previewPdfFile.name.split('.').pop();
+        const previewFileName = `preview-${Date.now()}-${Math.random().toString(36).substring(7)}.${previewExt}`;
+        const { data: previewData, error: previewError } = await supabase.storage
+          .from('worksheet-previews')
+          .upload(previewFileName, previewPdfFile);
+
+        if (previewError) throw new Error("ไม่สามารถอัปโหลดไฟล์ตัวอย่างได้");
+        finalPreviewUrl = supabase.storage.from('worksheet-previews').getPublicUrl(previewData.path).data.publicUrl;
+      }
+
       // 3. Update Database
       const updateData: any = {
         title: formData.title,
@@ -105,6 +120,7 @@ export default function EditWorksheetPage() {
 
       if (finalCoverUrl) updateData.cover_image_url = finalCoverUrl;
       if (finalPdfUrl) updateData.full_pdf_url = finalPdfUrl;
+      if (finalPreviewUrl) updateData.preview_pdf_url = finalPreviewUrl;
 
       const { error: dbError } = await (supabase as any).from('worksheets').update(updateData).eq('id', id);
 
@@ -195,7 +211,7 @@ export default function EditWorksheetPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-slate-700 font-semibold">เปลี่ยนไฟล์ใบงาน PDF (ตัวเลือก)</Label>
+                  <Label className="text-slate-700 font-semibold">เปลี่ยนไฟล์ใบงานเต็ม PDF (ตัวเลือก)</Label>
                   <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:bg-slate-50 transition-colors">
                     <input type="file" accept=".pdf" id="pdf" className="hidden" onChange={(e) => handleFileChange(e, "pdf")} />
                     <Label htmlFor="pdf" className="cursor-pointer flex flex-col items-center gap-2">
@@ -203,7 +219,22 @@ export default function EditWorksheetPage() {
                         <FileText className="w-6 h-6" />
                       </div>
                       <span className="text-sm font-medium text-slate-700">
-                        {pdfFile ? pdfFile.name : "คลิกเพื่ออัปโหลดไฟล์ PDF ใหม่"}
+                        {pdfFile ? pdfFile.name : "คลิกเพื่ออัปโหลดไฟล์ PDF เต็มใหม่"}
+                      </span>
+                    </Label>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-slate-700 font-semibold">เปลี่ยนไฟล์ตัวอย่าง (Preview PDF) <span className="text-slate-400 font-normal">- ตัวเลือก</span></Label>
+                  <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:bg-slate-50 transition-colors">
+                    <input type="file" accept=".pdf" id="preview_pdf" className="hidden" onChange={(e) => handleFileChange(e, "preview_pdf")} />
+                    <Label htmlFor="preview_pdf" className="cursor-pointer flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-700">
+                        {previewPdfFile ? previewPdfFile.name : "คลิกเพื่ออัปโหลดไฟล์ตัวอย่างใหม่"}
                       </span>
                     </Label>
                   </div>
