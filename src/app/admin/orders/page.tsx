@@ -50,7 +50,7 @@ export default function AdminOrdersPage() {
   };
 
   const handleApprove = async (orderId: string) => {
-    const { error } = await supabase.from('orders').update({ payment_status: 'completed' }).eq('id', orderId);
+    const { error } = await supabase.from('orders').update({ payment_status: 'completed' } as any).eq('id', orderId);
     if (!error) {
       setOrders(orders.map(o => o.id === orderId ? { ...o, status: "completed" } : o));
       setIsModalOpen(false);
