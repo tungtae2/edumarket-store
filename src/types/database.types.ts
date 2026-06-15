@@ -61,6 +61,7 @@ export interface Database {
           id: string
           customer_name: string
           customer_email: string
+          user_id: string | null
           total_amount: number
           payment_status: string
           slip_image_url: string | null
@@ -70,6 +71,7 @@ export interface Database {
           id?: string
           customer_name: string
           customer_email: string
+          user_id?: string | null
           total_amount: number
           payment_status?: string
           slip_image_url?: string | null
@@ -79,6 +81,7 @@ export interface Database {
           id?: string
           customer_name?: string
           customer_email?: string
+          user_id?: string | null
           total_amount?: number
           payment_status?: string
           slip_image_url?: string | null

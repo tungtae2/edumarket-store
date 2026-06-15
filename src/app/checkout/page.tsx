@@ -20,6 +20,9 @@ export default function CheckoutPage() {
   const [slipImage, setSlipImage] = useState<string | null>(null);
   const [slipFile, setSlipFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
 
   const items = useCartStore((state) => state.items);
   const totalAmount = useCartStore((state) => state.totalAmount());
@@ -30,6 +33,16 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setMounted(true);
+    const fetchUser = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUser(user);
+        setCustomerName(user.user_metadata?.full_name || "");
+        setCustomerEmail(user.email || "");
+      }
+    };
+    fetchUser();
   }, []);
 
   // Generate PromptPay QR Payload
@@ -51,8 +64,8 @@ export default function CheckoutPage() {
     
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
-    const customerName = formData.get("customerName") as string;
-    const customerEmail = formData.get("customerEmail") as string;
+    const formCustomerName = formData.get("customerName") as string;
+    const formCustomerEmail = formData.get("customerEmail") as string;
 
     const supabase = createClient() as any;
     let slipUrl = "";
@@ -73,8 +86,9 @@ export default function CheckoutPage() {
       // 2. Insert Order
       const { data: orderData, error: orderError } = await supabase.from('orders').insert([
         {
-          customer_name: customerName,
-          customer_email: customerEmail,
+          user_id: user?.id || null,
+          customer_name: formCustomerName,
+          customer_email: formCustomerEmail,
           total_amount: totalAmount,
           slip_image_url: slipUrl
         }
@@ -145,11 +159,11 @@ export default function CheckoutPage() {
               <CardContent className="p-6 space-y-6">
                 <div>
                   <label className="block text-base font-bold text-black mb-2">ชื่อ-นามสกุล *</label>
-                  <Input name="customerName" required placeholder="พิมพ์ชื่อของคุณ..." className="rounded-2xl h-14 manga-border focus-visible:ring-primary" />
+                  <Input name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} required placeholder="พิมพ์ชื่อของคุณ..." className="rounded-2xl h-14 manga-border focus-visible:ring-primary" />
                 </div>
                 <div>
                   <label className="block text-base font-bold text-black mb-2">อีเมล (สำหรับรับไฟล์ PDF) *</label>
-                  <Input name="customerEmail" required type="email" placeholder="example@email.com" className="rounded-2xl h-14 manga-border focus-visible:ring-primary" />
+                  <Input type="email" name="customerEmail" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} required placeholder="example@email.com" className="rounded-2xl h-14 manga-border focus-visible:ring-primary" />
                 </div>
               </CardContent>
             </Card>

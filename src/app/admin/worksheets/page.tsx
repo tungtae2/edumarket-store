@@ -9,7 +9,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function AdminWorksheetsPage() {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
   const worksheets = (dbWorksheets as any[]) || [];
   return (

@@ -12,7 +12,8 @@ export const dynamic = "force-dynamic";
 
 export default async function WorksheetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
   
   let worksheet = null;
   
@@ -92,7 +93,10 @@ export default async function WorksheetDetailPage({ params }: { params: Promise<
             </div>
 
             <div className="flex flex-col gap-4 mb-8">
-              <AddToCartButton worksheet={{ id: worksheet.id, title: worksheet.title, price: worksheet.price }} />
+              <AddToCartButton 
+                user={user} 
+                worksheet={{ id: worksheet.id, title: worksheet.title, price: worksheet.price }} 
+              />
               {worksheet.preview_pdf_url && (
                 <a href={worksheet.preview_pdf_url} target="_blank" rel="noopener noreferrer" className="block w-full">
                   <Button className="bg-white text-black hover:bg-slate-100 rounded-2xl py-6 text-lg font-bold manga-border shadow-[3px_3px_0_0_#000] w-full">

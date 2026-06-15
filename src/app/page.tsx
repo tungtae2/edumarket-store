@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 
 export default async function Home() {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
 
   // Use real DB data

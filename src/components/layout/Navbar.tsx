@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link"
-import { Search, ShoppingCart, User } from "lucide-react"
+import { Search, ShoppingCart, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useCartStore } from "@/store/useCartStore"
 import { useEffect, useState } from "react"
+import { logout } from "@/app/actions/auth"
+import type { User as SupabaseUser } from "@supabase/supabase-js"
 
-export function Navbar() {
+export function Navbar({ user }: { user?: SupabaseUser | null }) {
   const items = useCartStore((state) => state.items)
   const [mounted, setMounted] = useState(false)
 
@@ -47,11 +49,34 @@ export function Navbar() {
             )}
           </Button>
         </Link>
-        <Link href="/login">
-          <Button className="bg-secondary text-black hover:bg-secondary/90 font-bold manga-border shadow-[2px_2px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0_0_#000] transition-all hidden md:flex">
-            เข้าสู่ระบบ
-          </Button>
-        </Link>
+        {user ? (
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold text-slate-700 hidden md:inline-block">
+              {user.user_metadata?.full_name || user.email}
+            </span>
+            <Button 
+              onClick={() => logout()}
+              variant="outline"
+              size="icon"
+              className="text-black hover:bg-red-50 hover:text-red-600 manga-border border-[1px] transition-all"
+            >
+              <LogOut className="w-4 h-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Link href="/register">
+              <Button variant="outline" className="text-primary font-bold manga-border border-[2px] bg-white hover:bg-slate-50 transition-all">
+                สมัครสมาชิก
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button className="bg-secondary text-black hover:bg-secondary/90 font-bold manga-border shadow-[2px_2px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0_0_#000] transition-all">
+                เข้าสู่ระบบ
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
       </div>
     </nav>
