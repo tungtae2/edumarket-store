@@ -7,7 +7,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 export default async function AdminWorksheetsPage() {
   const supabase = createServerSupabaseClient();
   const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
-  const worksheets = dbWorksheets || [];
+  const worksheets = (dbWorksheets as any[]) || [];
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">

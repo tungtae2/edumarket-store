@@ -40,7 +40,7 @@ export default async function Home() {
   const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
 
   // Use real DB data, or fallback to Mock Data if DB is empty (e.g. just initialized)
-  const worksheets = dbWorksheets && dbWorksheets.length > 0 ? dbWorksheets.map(w => ({
+  const worksheets = dbWorksheets && dbWorksheets.length > 0 ? (dbWorksheets as any[]).map((w: any) => ({
     id: w.id,
     title: w.title,
     subject: w.subject,
