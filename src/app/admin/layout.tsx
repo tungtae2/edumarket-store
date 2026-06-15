@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LayoutDashboard, ShoppingCart, FileText, BarChart3, Settings, LogOut, Bell } from "lucide-react";
+import { logoutAdmin } from "./login/actions";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,13 +38,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Settings className="w-5 h-5" />
             <span>Settings</span>
           </Link>
-        </div>
-
         <div className="p-4 border-t border-slate-800">
-          <button className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors w-full text-left text-red-400 hover:text-red-300">
-            <LogOut className="w-5 h-5" />
-            <span>ออกจากระบบ</span>
-          </button>
+          <form action={logoutAdmin}>
+            <button type="submit" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors w-full text-left text-red-400 hover:text-red-300">
+              <LogOut className="w-5 h-5" />
+              <span>ออกจากระบบ</span>
+            </button>
+          </form>
         </div>
       </aside>
 
