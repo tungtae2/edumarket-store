@@ -56,7 +56,7 @@ export default function CheckoutPage() {
     const customerName = formData.get("customerName") as string;
     const customerEmail = formData.get("customerEmail") as string;
 
-    const supabase = createClient();
+    const supabase = createClient() as any;
     let slipUrl = "";
 
     try {
