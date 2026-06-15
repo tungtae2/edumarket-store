@@ -12,20 +12,8 @@ import generatePayload from "promptpay-qr";
 import { createClient } from "@/lib/supabase/client";
 
 // Mock Cart Items
-const CART_ITEMS = [
-  {
-    id: "1",
-    title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบเลขพื้นฐาน",
-    price: 50,
-  },
-  {
-    id: "3",
-    title: "สมุดคัดลายมือภาษาไทย พยัญชนะ ก-ฮ สำหรับเด็กอนุบาล",
-    price: 35,
-  }
-];
-
-const PROMPTPAY_ID = "0812345678"; // Mock Admin PromptPay
+const CART_ITEMS: any[] = [];
+const PROMPTPAY_ID = "0812345678"; // Required for QR generation logic, will be replaced with real admin ID later
 const TOTAL_AMOUNT = CART_ITEMS.reduce((sum, item) => sum + item.price, 0);
 
 export default function CheckoutPage() {
@@ -196,12 +184,16 @@ export default function CheckoutPage() {
               </div>
               <CardContent className="p-0">
                 <div className="p-6 border-b-2 border-black space-y-4">
-                  {CART_ITEMS.map((item) => (
-                    <div key={item.id} className="flex justify-between items-start">
+                  {CART_ITEMS.length > 0 ? CART_ITEMS.map((item) => (
+                    <div key={item.id} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0">
                       <span className="text-black font-medium pr-4">{item.title}</span>
                       <span className="font-bold text-black whitespace-nowrap">฿{item.price}</span>
                     </div>
-                  ))}
+                  )) : (
+                    <div className="text-center py-8 text-slate-500">
+                      ยังไม่มีสินค้าในตะกร้า
+                    </div>
+                  )}
                 </div>
                 
                 <div className="p-6 bg-[#FFFDF9]">
@@ -224,7 +216,7 @@ export default function CheckoutPage() {
                     <p className="text-base font-medium text-slate-600">พร้อมเพย์: <span className="font-bold">{PROMPTPAY_ID}</span></p>
                   </div>
 
-                  <Button type="submit" disabled={isLoading} className="w-full bg-secondary text-black hover:bg-secondary/90 rounded-2xl py-7 text-xl font-bold manga-border shadow-[4px_4px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#000] transition-all">
+                  <Button type="submit" disabled={isLoading || CART_ITEMS.length === 0} className="w-full bg-secondary text-black hover:bg-secondary/90 rounded-2xl py-7 text-xl font-bold manga-border shadow-[4px_4px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#000] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0_0_#000]">
                     {isLoading ? "กำลังประมวลผล..." : (
                       <>ยืนยันและแจ้งโอนเงิน <ArrowRight className="ml-2 w-6 h-6" /></>
                     )}
