@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Check, Copy } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { sendOrderApprovedEmail } from "@/app/actions/email";
 
 interface Order {
   id: string;
@@ -54,7 +55,15 @@ export default function AdminOrdersPage() {
     if (!error) {
       setOrders(orders.map(o => o.id === orderId ? { ...o, status: "completed" } : o));
       setIsModalOpen(false);
-      alert(`อนุมัติคำสั่งซื้อเรียบร้อยแล้ว ระบบจะส่งอีเมลพร้อมลิงก์ดาวน์โหลดให้ลูกค้า`);
+      
+      const orderToApprove = orders.find(o => o.id === orderId);
+      if (orderToApprove) {
+        // Mock download link
+        const downloadLink = window.location.origin + "/checkout?success=true"; 
+        await sendOrderApprovedEmail(orderToApprove.email, orderToApprove.name, orderId, downloadLink);
+      }
+      
+      alert(`อนุมัติคำสั่งซื้อเรียบร้อยแล้ว ระบบได้ส่งอีเมลแจ้งลูกค้าแล้ว (หากตั้งค่า API Key)`);
     } else {
       alert("เกิดข้อผิดพลาดในการอัปเดตสถานะ");
     }

@@ -30,13 +30,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <FileText className="w-5 h-5" />
             <span>Worksheets</span>
           </Link>
+          <Link href="/admin/setup" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
+            <Settings className="w-5 h-5" />
+            <span>Setup</span>
+          </Link>
           <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
             <BarChart3 className="w-5 h-5" />
             <span>Reports</span>
-          </Link>
-          <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
-            <Settings className="w-5 h-5" />
-            <span>Settings</span>
           </Link>
         </div>
 
