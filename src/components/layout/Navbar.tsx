@@ -26,22 +26,20 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Search className="w-5 h-5 text-slate-600" />
+        <Link href="/cart">
+          <Button variant="ghost" size="icon" className="relative manga-border border-[1px] hover:bg-primary/10">
+            <ShoppingCart className="w-5 h-5 text-black" />
+            <span className="absolute top-0 right-0 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center -mt-1 -mr-1 manga-border border-[1px]">
+              0
+            </span>
           </Button>
-          <Button variant="ghost" className="relative hidden sm:flex text-slate-600 hover:text-indigo-600 hover:bg-indigo-50">
-            <ShoppingCart className="w-5 h-5 mr-2" />
-            ตะกร้าสินค้า
-            <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full"></span>
-          </Button>
-          <Button variant="ghost" size="icon" className="sm:hidden relative">
-            <ShoppingCart className="w-5 h-5 text-slate-600" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full"></span>
-          </Button>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6">
+        </Link>
+        <Link href="/login">
+          <Button className="bg-secondary text-black hover:bg-secondary/90 font-bold manga-border shadow-[2px_2px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0_0_#000] transition-all hidden md:flex">
             เข้าสู่ระบบ
           </Button>
-        </div>
+        </Link>
+      </div>
       </div>
     </nav>
   )

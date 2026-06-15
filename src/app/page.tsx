@@ -2,33 +2,27 @@ import Image from "next/image";
 import { WorksheetCard } from "@/components/ui/WorksheetCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, BookOpen, Calculator, Globe, Languages } from "lucide-react";
+import { Search, BookOpen, Calculator, Globe, Languages, ArrowRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 // Mock Data
-const FEATURED_WORKSHEETS = [
+// Mock Data
+const MOCK_WORKSHEETS = [
   {
     id: "1",
-    title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบเลขพื้นฐาน",
+    title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบเลขพื้นฐาน (ฉบับการ์ตูน)",
     subject: "คณิตศาสตร์",
     gradeLevel: "ป.1",
     price: 50,
-    coverImageUrl: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=800&auto=format&fit=crop",
+    coverImageUrl: "/anime_math_cover.png"
   },
   {
     id: "2",
-    title: "ใบงานวิทยาศาสตร์ ป.3 - วัฏจักรชีวิตของสัตว์",
-    subject: "วิทยาศาสตร์",
-    gradeLevel: "ป.3",
-    price: 45,
-    coverImageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "3",
     title: "สมุดคัดลายมือภาษาไทย พยัญชนะ ก-ฮ สำหรับเด็กอนุบาล",
     subject: "ภาษาไทย",
     gradeLevel: "อนุบาล",
     price: 35,
-    coverImageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop",
+    coverImageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "4",
@@ -42,28 +36,28 @@ const FEATURED_WORKSHEETS = [
 
 export default function Home() {
   return (
-    <div className="bg-slate-50 min-h-screen pb-20">
+    <div className="bg-[#FFFDF9] min-h-screen">
       {/* Hero Section */}
-      <section className="bg-indigo-600 pt-20 pb-28 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div className="container mx-auto text-center relative z-10 max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            ค้นหาใบงานและสื่อการสอน <br className="hidden md:block" />
-            <span className="text-orange-400">คุณภาพดีที่สุด</span> สำหรับคุณ
+      <section className="bg-primary pt-24 pb-20 relative overflow-hidden manga-border border-b-4 border-l-0 border-r-0 border-t-0 rounded-none mb-12">
+        {/* Halftone Pattern (Simulated with CSS dots) */}
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(black_2px,transparent_0)] bg-[length:15px_15px]"></div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <Badge className="bg-secondary text-black hover:bg-secondary/90 mb-6 px-4 py-2 text-sm font-bold manga-border shadow-[2px_2px_0_0_#000]">
+            🎉 แหล่งรวมใบงานที่ดีที่สุด
+          </Badge>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-[2px_2px_0_#000]">
+            คลังใบงานดิจิทัล <br className="hidden md:block" />สำหรับคุณครูยุคใหม่
           </h1>
-          <p className="text-indigo-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-            ประหยัดเวลาเตรียมการสอน ด้วยคลังใบงานดิจิทัลที่ออกแบบมาเพื่อคุณครูและเด็กไทยโดยเฉพาะ ดาวน์โหลดปุ๊บ ใช้ได้ปั๊บ
+          <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto drop-shadow-[1px_1px_0_#000]">
+            ดาวน์โหลดใบงานคุณภาพสูงพร้อมใช้ ประหยัดเวลาเตรียมการสอน สนับสนุนโดยเพื่อนครูทั่วประเทศ
           </p>
-          
-          <div className="bg-white p-2 rounded-2xl shadow-xl flex items-center max-w-2xl mx-auto">
-            <Search className="w-6 h-6 text-slate-400 ml-4 mr-2" />
-            <Input 
-              type="text" 
-              placeholder="ค้นหาวิชา, ระดับชั้น, หรือคำที่ต้องการ..." 
-              className="border-0 shadow-none focus-visible:ring-0 text-lg py-6"
-            />
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-8 py-6 text-lg font-bold">
-              ค้นหา
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button size="lg" className="bg-secondary text-black hover:bg-secondary/90 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-[3px_3px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0_0_#000] transition-all">
+              ดูใบงานทั้งหมด <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button size="lg" className="bg-white text-black hover:bg-slate-100 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-[3px_3px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0_0_#000] transition-all">
+              หมวดหมู่ยอดฮิต
             </Button>
           </div>
         </div>
@@ -95,7 +89,7 @@ export default function Home() {
           <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {FEATURED_WORKSHEETS.map((ws) => (
+          {MOCK_WORKSHEETS.map((ws) => (
             <WorksheetCard key={ws.id} {...ws} />
           ))}
         </div>
@@ -108,7 +102,7 @@ export default function Home() {
           <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {FEATURED_WORKSHEETS.toReversed().map((ws) => (
+          {MOCK_WORKSHEETS.toReversed().map((ws) => (
             <WorksheetCard key={ws.id} {...ws} />
           ))}
         </div>

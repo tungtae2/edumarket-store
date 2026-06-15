@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Mali } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const mali = Mali({
+  weight: ['400', '500', '600', '700'],
+  subsets: ["thai", "latin"],
+  variable: "--font-mali",
 });
 
 export const metadata: Metadata = {
-  title: "EduMarket - ตลาดใบงานดิจิทัล",
-  description: "แหล่งรวมใบงานและสื่อการสอนคุณภาพ สำหรับคุณครูและเด็กๆ",
+  title: "EduMarket - คลังใบงานสำหรับคุณครู",
+  description: "แหล่งรวมใบงาน แบบฝึกหัด คุณภาพสูงสำหรับคุณครูและผู้ปกครอง",
 };
 
 export default function RootLayout({
@@ -25,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th">
+    <html lang="th" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${mali.variable} font-sans antialiased bg-slate-50 flex flex-col min-h-screen`}
       >
         <Navbar />
         <main className="flex-grow">
