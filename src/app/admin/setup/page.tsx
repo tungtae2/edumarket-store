@@ -18,6 +18,7 @@ export default function AdminSetupPage() {
       { 
         title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบ", 
         subject: "คณิตศาสตร์", 
+        grade_level: "ป.1",
         price: 50, 
         sales_count: 340, 
         views: 1250,
@@ -27,6 +28,7 @@ export default function AdminSetupPage() {
       { 
         title: "ใบงานวิทยาศาสตร์ ป.3 - วัฏจักรชีวิต", 
         subject: "วิทยาศาสตร์", 
+        grade_level: "ป.3",
         price: 45, 
         sales_count: 150, 
         views: 800,
@@ -36,6 +38,7 @@ export default function AdminSetupPage() {
       { 
         title: "สมุดคัดลายมือภาษาไทย ก-ฮ", 
         subject: "ภาษาไทย", 
+        grade_level: "อนุบาล-ป.1",
         price: 35, 
         sales_count: 200, 
         views: 1000,
@@ -45,6 +48,7 @@ export default function AdminSetupPage() {
       { 
         title: "แบบฝึกหัด Grammar - Present Simple", 
         subject: "ภาษาอังกฤษ", 
+        grade_level: "ป.4-ป.6",
         price: 60, 
         sales_count: 95, 
         views: 500,
