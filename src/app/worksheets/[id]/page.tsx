@@ -12,6 +12,8 @@ export const dynamic = "force-dynamic";
 const MOCK_WORKSHEET = {
   id: "1",
   title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบเลขพื้นฐาน",
+  features: ["ไฟล์ PDF คุณภาพสูง (เวกเตอร์)", "เฉลยวิธีทำอย่างละเอียด", "อัปเดตฟรีตลอดชีพ"],
+  preview_pdf_url: null,
   description: `ใบงานคณิตศาสตร์ชุดนี้ถูกออกแบบมาเพื่อพัฒนาทักษะพื้นฐานทางคณิตศาสตร์สำหรับเด็กประถมศึกษาปีที่ 1
   
 เนื้อหาประกอบด้วย:
@@ -48,6 +50,7 @@ export default async function WorksheetDetailPage({ params }: { params: Promise<
         gradeLevel: data.grade_level,
         price: data.price,
         coverImageUrl: data.cover_image_url || "/anime_math_cover.png",
+        preview_pdf_url: data.preview_pdf_url || null,
         views: data.views || 0,
         sales_count: data.sales_count || 0
       };
