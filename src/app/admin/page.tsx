@@ -15,8 +15,8 @@ export default async function AdminDashboardPage() {
   
   const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const safeOrders = orders || [];
-  const safeWorksheets = worksheets || [];
+  const safeOrders = (orders as any[]) || [];
+  const safeWorksheets = (worksheets as any[]) || [];
 
   const todaySales = safeOrders
     .filter(o => new Date(o.created_at) >= today && o.payment_status === 'completed')
