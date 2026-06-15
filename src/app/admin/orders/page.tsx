@@ -32,7 +32,7 @@ export default function AdminOrdersPage() {
   const fetchOrders = async () => {
     const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
     if (data) {
-      setOrders(data.map(o => ({
+      setOrders((data as any[]).map((o: any) => ({
         id: o.id,
         name: o.customer_name,
         email: o.customer_email,
