@@ -8,7 +8,6 @@ import { createServerSupabaseClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic";
 
-import { notFound } from "next/navigation";
 
 export default async function WorksheetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
