@@ -2,16 +2,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Edit, Trash2 } from "lucide-react";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-// Mock Worksheets
-const MOCK_WORKSHEETS = [
-  { id: "1", title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบ", subject: "คณิตศาสตร์", price: 50, sales: 340, views: 1250 },
-  { id: "2", title: "ใบงานวิทยาศาสตร์ ป.3 - วัฏจักรชีวิต", subject: "วิทยาศาสตร์", price: 45, sales: 150, views: 800 },
-  { id: "3", title: "สมุดคัดลายมือภาษาไทย ก-ฮ", subject: "ภาษาไทย", price: 35, sales: 200, views: 1000 },
-  { id: "4", title: "แบบฝึกหัด Grammar - Present Simple", subject: "ภาษาอังกฤษ", price: 60, sales: 95, views: 500 },
-];
-
-export default function AdminWorksheetsPage() {
+export default async function AdminWorksheetsPage() {
+  const supabase = createServerSupabaseClient();
+  const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
+  const worksheets = dbWorksheets || [];
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -35,15 +31,15 @@ export default function AdminWorksheetsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {MOCK_WORKSHEETS.map((ws) => (
+            {worksheets.length > 0 ? worksheets.map((ws) => (
               <TableRow key={ws.id}>
-                <TableCell className="font-medium text-slate-500">{ws.id}</TableCell>
+                <TableCell className="font-medium text-slate-500 text-xs">{ws.id.split('-')[0]}</TableCell>
                 <TableCell className="font-bold text-slate-800">{ws.title}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className="text-slate-600 bg-slate-50">{ws.subject}</Badge>
                 </TableCell>
                 <TableCell className="text-right font-medium text-indigo-600">฿{ws.price}</TableCell>
-                <TableCell className="text-right text-slate-600">{ws.sales}</TableCell>
+                <TableCell className="text-right text-slate-600">{ws.sales_count}</TableCell>
                 <TableCell className="text-right text-slate-600">{ws.views}</TableCell>
                 <TableCell className="text-right space-x-2">
                   <Button variant="outline" size="icon" className="text-slate-500 hover:text-indigo-600">
@@ -54,7 +50,13 @@ export default function AdminWorksheetsPage() {
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+            )) : (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-10 text-slate-500">
+                  ไม่มีข้อมูลใบงาน
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>

@@ -1,35 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Check, Copy } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
-// Mock Orders
-const MOCK_ORDERS = [
-  { id: "1004", name: "คุณสมชาย", email: "somchai@email.com", amount: 85, status: "pending", date: "2026-06-15 11:30", slipUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400&auto=format&fit=crop" },
-  { id: "1003", name: "คุณมาลี", email: "malee@email.com", amount: 50, status: "pending", date: "2026-06-15 10:15", slipUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400&auto=format&fit=crop" },
-  { id: "1002", name: "คุณก้องเกียรติ", email: "kong@email.com", amount: 130, status: "completed", date: "2026-06-14 15:40", slipUrl: null },
-  { id: "1001", name: "คุณวิภา", email: "wipa@email.com", amount: 35, status: "completed", date: "2026-06-14 09:20", slipUrl: null },
-];
+interface Order {
+  id: string;
+  name: string;
+  email: string;
+  amount: number;
+  status: string;
+  date: string;
+  slipUrl: string | null;
+}
 
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState(MOCK_ORDERS);
-  const [selectedOrder, setSelectedOrder] = useState<typeof MOCK_ORDERS[0] | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const supabase = createClient();
 
-  const openSlipModal = (order: typeof MOCK_ORDERS[0]) => {
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+    if (data) {
+      setOrders(data.map(o => ({
+        id: o.id,
+        name: o.customer_name,
+        email: o.customer_email,
+        amount: o.total_amount,
+        status: o.payment_status,
+        date: new Date(o.created_at).toLocaleString('th-TH'),
+        slipUrl: o.slip_image_url
+      })));
+    }
+  };
+
+  const openSlipModal = (order: Order) => {
     setSelectedOrder(order);
     setIsModalOpen(true);
   };
 
-  const handleApprove = (orderId: string) => {
-    setOrders(orders.map(o => o.id === orderId ? { ...o, status: "completed" } : o));
-    setIsModalOpen(false);
-    alert(`อนุมัติคำสั่งซื้อ #${orderId} เรียบร้อยแล้ว ระบบจะส่งอีเมลพร้อมลิงก์ดาวน์โหลดให้ลูกค้า`);
+  const handleApprove = async (orderId: string) => {
+    const { error } = await supabase.from('orders').update({ payment_status: 'completed' }).eq('id', orderId);
+    if (!error) {
+      setOrders(orders.map(o => o.id === orderId ? { ...o, status: "completed" } : o));
+      setIsModalOpen(false);
+      alert(`อนุมัติคำสั่งซื้อเรียบร้อยแล้ว ระบบจะส่งอีเมลพร้อมลิงก์ดาวน์โหลดให้ลูกค้า`);
+    } else {
+      alert("เกิดข้อผิดพลาดในการอัปเดตสถานะ");
+    }
   };
 
   const copyEmail = (email: string) => {

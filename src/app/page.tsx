@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, BookOpen, Calculator, Globe, Languages, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 // Mock Data
 // Mock Data
@@ -34,7 +35,20 @@ const MOCK_WORKSHEETS = [
   }
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createServerSupabaseClient();
+  const { data: dbWorksheets } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false });
+
+  // Use real DB data, or fallback to Mock Data if DB is empty (e.g. just initialized)
+  const worksheets = dbWorksheets && dbWorksheets.length > 0 ? dbWorksheets.map(w => ({
+    id: w.id,
+    title: w.title,
+    subject: w.subject,
+    gradeLevel: w.grade_level,
+    price: w.price,
+    coverImageUrl: w.cover_image_url || "/anime_math_cover.png"
+  })) : MOCK_WORKSHEETS;
+
   return (
     <div className="bg-[#FFFDF9] min-h-screen">
       {/* Hero Section */}
@@ -102,7 +116,7 @@ export default function Home() {
           <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {MOCK_WORKSHEETS.toReversed().map((ws) => (
+          {worksheets.slice(0, 8).map((ws) => (
             <WorksheetCard key={ws.id} {...ws} />
           ))}
         </div>
