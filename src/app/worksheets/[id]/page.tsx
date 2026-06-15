@@ -8,28 +8,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic";
 
-// Mock Data for Phase 2
-const MOCK_WORKSHEET = {
-  id: "1",
-  title: "ชุดใบงานคณิตศาสตร์ ป.1 - การบวกและลบเลขพื้นฐาน",
-  features: ["ไฟล์ PDF คุณภาพสูง (เวกเตอร์)", "เฉลยวิธีทำอย่างละเอียด", "อัปเดตฟรีตลอดชีพ"],
-  preview_pdf_url: null,
-  description: `ใบงานคณิตศาสตร์ชุดนี้ถูกออกแบบมาเพื่อพัฒนาทักษะพื้นฐานทางคณิตศาสตร์สำหรับเด็กประถมศึกษาปีที่ 1
-  
-เนื้อหาประกอบด้วย:
-- การบวกเลขไม่เกิน 20
-- การลบเลขไม่เกิน 20
-- โจทย์ปัญหาในชีวิตประจำวัน
-- เกมคณิตศาสตร์แสนสนุก
-
-เหมาะสำหรับคุณครูนำไปใช้สอนในชั้นเรียน หรือผู้ปกครองนำไปให้เด็กๆ ฝึกทบทวนที่บ้าน พิมพ์สีสันสดใส ดึงดูดความสนใจเด็กๆ ได้ดีเยี่ยม`,
-  subject: "คณิตศาสตร์",
-  gradeLevel: "ป.1",
-  price: 50,
-  coverImageUrl: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=800&auto=format&fit=crop",
-  views: 1250,
-  sales_count: 340
-}
+import { notFound } from "next/navigation";
 
 export default async function WorksheetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -59,13 +38,8 @@ export default async function WorksheetDetailPage({ params }: { params: Promise<
     console.error("DB Fetch Error", e);
   }
 
-  // Fallback to mock data if id is '1' or '2' and DB has no data (e.g. before seeding)
   if (!worksheet) {
-    if (id === "1" || id === "2") {
-      worksheet = MOCK_WORKSHEET; // Use the mock constant defined above
-    } else {
-      notFound();
-    }
+    notFound();
   }
 
   return (
