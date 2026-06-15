@@ -38,6 +38,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Settings className="w-5 h-5" />
             <span>Settings</span>
           </Link>
+        </div>
+
         <div className="p-4 border-t border-slate-800">
           <form action={logoutAdmin}>
             <button type="submit" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors w-full text-left text-red-400 hover:text-red-300">
