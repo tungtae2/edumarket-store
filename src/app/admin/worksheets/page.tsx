@@ -1,7 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
+import { WorksheetActionButtons } from "@/components/admin/WorksheetActionButtons";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
@@ -46,13 +47,8 @@ export default async function AdminWorksheetsPage() {
                 <TableCell className="text-right font-medium text-indigo-600">฿{ws.price}</TableCell>
                 <TableCell className="text-right text-slate-600">{ws.sales_count}</TableCell>
                 <TableCell className="text-right text-slate-600">{ws.views}</TableCell>
-                <TableCell className="text-right space-x-2">
-                  <Button variant="outline" size="icon" className="text-slate-500 hover:text-indigo-600">
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                  <Button variant="outline" size="icon" className="text-slate-500 hover:text-red-600">
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                <TableCell className="text-right">
+                  <WorksheetActionButtons worksheetId={ws.id} />
                 </TableCell>
               </TableRow>
             )) : (
