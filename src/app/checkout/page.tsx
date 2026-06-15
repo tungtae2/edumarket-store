@@ -11,19 +11,29 @@ import { QRCodeSVG } from "qrcode.react";
 import generatePayload from "promptpay-qr";
 import { createClient } from "@/lib/supabase/client";
 
-// Mock Cart Items
-const CART_ITEMS: any[] = [];
-const PROMPTPAY_ID = "0812345678"; // Required for QR generation logic, will be replaced with real admin ID later
-const TOTAL_AMOUNT = CART_ITEMS.reduce((sum, item) => sum + item.price, 0);
+import { useCartStore } from "@/store/useCartStore";
+import { useEffect } from "react";
 
+const PROMPTPAY_ID = "0902168164";
 export default function CheckoutPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [slipImage, setSlipImage] = useState<string | null>(null);
   const [slipFile, setSlipFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const items = useCartStore((state) => state.items);
+  const totalAmount = useCartStore((state) => state.totalAmount());
+  const clearCart = useCartStore((state) => state.clearCart);
+  const removeItem = useCartStore((state) => state.removeItem);
+  
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Generate PromptPay QR Payload
-  const qrPayload = generatePayload(PROMPTPAY_ID, { amount: TOTAL_AMOUNT });
+  const qrPayload = generatePayload(PROMPTPAY_ID, { amount: totalAmount });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -65,7 +75,7 @@ export default function CheckoutPage() {
         {
           customer_name: customerName,
           customer_email: customerEmail,
-          total_amount: TOTAL_AMOUNT,
+          total_amount: totalAmount,
           slip_image_url: slipUrl
         }
       ]).select().single();
@@ -74,15 +84,15 @@ export default function CheckoutPage() {
 
       // 3. Insert Order Items
       if (orderData) {
-        const orderItems = CART_ITEMS.map(item => ({
+        const orderItems = items.map(item => ({
           order_id: orderData.id,
-          worksheet_id: item.id, // Assuming worksheet ID exists in Supabase. For mock safety, we could bypass this if foreign key fails.
+          worksheet_id: item.id,
           price: item.price
         }));
-        // Note: This might fail if mock worksheet IDs don't exist in the real DB.
         await supabase.from('order_items').insert(orderItems);
       }
 
+      clearCart();
       setIsSuccess(true);
     } catch (err) {
       console.error(err);
@@ -184,10 +194,21 @@ export default function CheckoutPage() {
               </div>
               <CardContent className="p-0">
                 <div className="p-6 border-b-2 border-black space-y-4">
-                  {CART_ITEMS.length > 0 ? CART_ITEMS.map((item) => (
+                  {mounted && items.length > 0 ? items.map((item) => (
                     <div key={item.id} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0">
                       <span className="text-black font-medium pr-4">{item.title}</span>
-                      <span className="font-bold text-black whitespace-nowrap">฿{item.price}</span>
+                      <div className="flex items-center gap-4">
+                        <span className="font-bold text-black whitespace-nowrap">฿{item.price}</span>
+                        <Button 
+                          type="button"
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 h-8"
+                          onClick={() => removeItem(item.id)}
+                        >
+                          ลบ
+                        </Button>
+                      </div>
                     </div>
                   )) : (
                     <div className="text-center py-8 text-slate-500">
@@ -199,7 +220,7 @@ export default function CheckoutPage() {
                 <div className="p-6 bg-[#FFFDF9]">
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-black font-bold text-lg">ยอดรวมทั้งสิ้น</span>
-                    <span className="text-4xl font-bold text-primary drop-shadow-[1px_1px_0_#000]">฿{TOTAL_AMOUNT}</span>
+                    <span className="text-4xl font-bold text-primary drop-shadow-[1px_1px_0_#000]">฿{mounted ? totalAmount : 0}</span>
                   </div>
 
                   <div className="bg-white rounded-2xl p-6 manga-border text-center mb-6 shadow-[2px_2px_0_0_#000]">
@@ -216,7 +237,7 @@ export default function CheckoutPage() {
                     <p className="text-base font-medium text-slate-600">พร้อมเพย์: <span className="font-bold">{PROMPTPAY_ID}</span></p>
                   </div>
 
-                  <Button type="submit" disabled={isLoading || CART_ITEMS.length === 0} className="w-full bg-secondary text-black hover:bg-secondary/90 rounded-2xl py-7 text-xl font-bold manga-border shadow-[4px_4px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#000] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0_0_#000]">
+                  <Button type="submit" disabled={isLoading || !mounted || items.length === 0} className="w-full bg-secondary text-black hover:bg-secondary/90 rounded-2xl py-7 text-xl font-bold manga-border shadow-[4px_4px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#000] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0_0_#000]">
                     {isLoading ? "กำลังประมวลผล..." : (
                       <>ยืนยันและแจ้งโอนเงิน <ArrowRight className="ml-2 w-6 h-6" /></>
                     )}
