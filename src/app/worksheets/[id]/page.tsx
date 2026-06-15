@@ -35,7 +35,8 @@ export default async function WorksheetDetailPage({ params }: { params: Promise<
   
   // Try to fetch from DB
   try {
-    const { data, error } = await supabase.from('worksheets').select('*').eq('id', id).single();
+    const { data: rawData, error } = await supabase.from('worksheets').select('*').eq('id', id).single();
+    const data = rawData as any;
     if (data) {
       worksheet = {
         id: data.id,
