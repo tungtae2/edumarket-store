@@ -36,12 +36,13 @@ export default function EditWorksheetPage() {
     async function fetchWorksheet() {
       const { data, error } = await supabase.from('worksheets').select('*').eq('id', id).single();
       if (data) {
+        const d = data as any;
         setFormData({
-          title: data.title,
-          subject: data.subject,
-          grade_level: data.grade_level,
-          price: data.price.toString(),
-          description: data.description,
+          title: d.title,
+          subject: d.subject,
+          grade_level: d.grade_level,
+          price: d.price.toString(),
+          description: d.description,
         });
       }
       setIsLoading(false);
