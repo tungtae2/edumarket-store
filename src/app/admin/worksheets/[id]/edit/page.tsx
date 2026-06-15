@@ -106,7 +106,7 @@ export default function EditWorksheetPage() {
       if (finalCoverUrl) updateData.cover_image_url = finalCoverUrl;
       if (finalPdfUrl) updateData.full_pdf_url = finalPdfUrl;
 
-      const { error: dbError } = await supabase.from('worksheets').update(updateData).eq('id', id);
+      const { error: dbError } = await (supabase as any).from('worksheets').update(updateData).eq('id', id);
 
       if (dbError) throw dbError;
 

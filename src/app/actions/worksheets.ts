@@ -7,7 +7,7 @@ export async function deleteWorksheet(id: string) {
   const supabase = createServerSupabaseClient();
   
   try {
-    const { error } = await supabase.from('worksheets').delete().eq('id', id);
+    const { error } = await (supabase as any).from('worksheets').delete().eq('id', id);
     if (error) throw error;
     
     revalidatePath("/admin/worksheets");
