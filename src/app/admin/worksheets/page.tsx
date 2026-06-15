@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import Link from "next/link";
 
 export default async function AdminWorksheetsPage() {
   const supabase = createServerSupabaseClient();
@@ -12,9 +13,11 @@ export default async function AdminWorksheetsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-slate-800">จัดการใบงาน (Worksheets)</h1>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-sm">
-          <Plus className="w-5 h-5 mr-2" /> เพิ่มใบงานใหม่
-        </Button>
+        <Link href="/admin/worksheets/new">
+          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-sm">
+            <Plus className="w-5 h-5 mr-2" /> เพิ่มใบงานใหม่
+          </Button>
+        </Link>
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
