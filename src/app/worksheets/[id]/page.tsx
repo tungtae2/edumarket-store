@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, FileText, ChevronRight, Eye } from "lucide-react"
 import { createServerSupabaseClient } from "@/lib/supabase/server"
 
+export const dynamic = "force-dynamic";
+
 // Mock Data for Phase 2
 const MOCK_WORKSHEET = {
   id: "1",

@@ -6,6 +6,8 @@ import { Search, BookOpen, Calculator, Globe, Languages, ArrowRight } from "luci
 import { Badge } from "@/components/ui/badge";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 // Mock Data
 // Mock Data
 const MOCK_WORKSHEETS = [
