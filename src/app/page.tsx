@@ -71,30 +71,24 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Section */}
+      {/* Latest Section */}
       <section className="container mx-auto px-4 mb-20">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-slate-800">ใบงานแนะนำ 🌟</h2>
+          <h2 className="text-3xl font-bold text-slate-800">ใบงานล่าสุด 🌟</h2>
           <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {worksheets.slice(0, 4).map((ws) => (
-            <WorksheetCard key={ws.id} {...ws} />
-          ))}
-        </div>
-      </section>
-
-      {/* Best Selling Section */}
-      <section className="container mx-auto px-4 mb-20">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-slate-800">ขายดีที่สุด 🔥</h2>
-          <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {worksheets.slice(0, 8).map((ws) => (
-            <WorksheetCard key={ws.id} {...ws} />
-          ))}
-        </div>
+        {worksheets.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {worksheets.map((ws) => (
+              <WorksheetCard key={ws.id} {...ws} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
+            <h3 className="text-2xl font-bold text-slate-400 mb-2">ยังไม่มีใบงานในระบบ</h3>
+            <p className="text-slate-500">รอติดตามผลงานใหม่ๆ ได้เร็วๆ นี้ครับ</p>
+          </div>
+        )}
       </section>
     </div>
   );
