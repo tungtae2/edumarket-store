@@ -16,7 +16,7 @@ interface WorksheetCardProps {
 
 export function WorksheetCard({ id, title, subject, gradeLevel, price, coverImageUrl }: WorksheetCardProps) {
   return (
-    <Link href={`/worksheets/${id}`} className="block group">
+    <Link href={`/worksheets/${id}`} className="block group active:scale-[0.98] transition-transform duration-200">
       <Card className="overflow-hidden flex flex-col h-full manga-border shadow-manga shadow-manga-hover transition-all duration-300 bg-white">
         <div className="relative h-48 w-full overflow-hidden bg-primary/10 border-b-2 border-black">
           <Image 

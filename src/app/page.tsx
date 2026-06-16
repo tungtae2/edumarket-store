@@ -27,28 +27,47 @@ export default async function Home() {
   return (
     <div className="bg-[#FFFDF9] min-h-screen">
       {/* Hero Section */}
-      <section className="bg-primary pt-24 pb-20 relative overflow-hidden manga-border border-b-4 border-l-0 border-r-0 border-t-0 rounded-none mb-12">
+      <section className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 pt-24 pb-20 relative overflow-hidden manga-border border-b-4 border-l-0 border-r-0 border-t-0 rounded-none mb-12">
         {/* Halftone Pattern (Simulated with CSS dots) */}
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(black_2px,transparent_0)] bg-[length:15px_15px]"></div>
+        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(white_2px,transparent_0)] bg-[length:15px_15px]"></div>
         
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <Badge className="bg-secondary text-black hover:bg-secondary/90 mb-6 px-4 py-2 text-sm font-bold manga-border shadow-[2px_2px_0_0_#000]">
-            🎉 แหล่งรวมใบงานที่ดีที่สุด
-          </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-[2px_2px_0_#000]">
-            คลังใบงานดิจิทัล <br className="hidden md:block" />สำหรับคุณครูยุคใหม่
-          </h1>
-          <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto drop-shadow-[1px_1px_0_#000]">
-            ดาวน์โหลดใบงานคุณภาพสูงพร้อมใช้ ประหยัดเวลาเตรียมการสอน สนับสนุนโดยเพื่อนครูทั่วประเทศ
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" className="bg-secondary text-black hover:bg-secondary/90 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-[3px_3px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0_0_#000] transition-all">
-              ดูใบงานทั้งหมด <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button size="lg" className="bg-white text-black hover:bg-slate-100 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-[3px_3px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0_0_#000] transition-all">
-              หมวดหมู่ยอดฮิต
-            </Button>
+        <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          
+          {/* Left Content */}
+          <div className="text-center md:text-left flex-1">
+            <Badge className="bg-secondary text-black hover:bg-secondary/90 mb-6 px-4 py-2 text-sm font-bold manga-border shadow-[2px_2px_0_0_#000]">
+              🎉 แหล่งรวมใบงานที่ดีที่สุด
+            </Badge>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-[3px_3px_0_#000] leading-tight">
+              คลังใบงานดิจิทัล <br className="hidden md:block" />สำหรับคุณครูยุคใหม่
+            </h1>
+            <p className="text-xl md:text-2xl text-white font-medium mb-10 max-w-2xl drop-shadow-[2px_2px_0_#000]">
+              ดาวน์โหลดใบงานคุณภาพสูงพร้อมใช้ ประหยัดเวลาเตรียมการสอน สนับสนุนโดยเพื่อนครูทั่วประเทศ
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+              <Button size="lg" className="bg-secondary text-black hover:bg-secondary/90 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-manga shadow-manga-hover shadow-manga-active transition-all group">
+                ดูใบงานทั้งหมด <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button size="lg" className="bg-white text-black hover:bg-slate-100 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-manga shadow-manga-hover shadow-manga-active transition-all">
+                หมวดหมู่ยอดฮิต
+              </Button>
+            </div>
           </div>
+
+          {/* Right Image */}
+          <div className="flex-1 flex justify-center md:justify-end mt-10 md:mt-0">
+            <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] animate-float">
+              <div className="absolute inset-0 bg-white rounded-full opacity-20 blur-3xl"></div>
+              <Image 
+                src="/hero_illustration.png" 
+                alt="Happy Teacher and Students" 
+                fill 
+                className="object-contain drop-shadow-[4px_4px_0_rgba(0,0,0,0.8)]"
+                priority
+              />
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -61,11 +80,11 @@ export default async function Home() {
             { name: "ภาษาไทย", icon: BookOpen, color: "bg-red-100 text-red-600" },
             { name: "ภาษาอังกฤษ", icon: Languages, color: "bg-yellow-100 text-yellow-600" },
           ].map((cat, i) => (
-            <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-all hover:-translate-y-1">
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${cat.color}`}>
+            <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col items-center justify-center cursor-pointer hover:shadow-manga hover:-translate-y-2 transition-all duration-300 group">
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
                 <cat.icon className="w-8 h-8" />
               </div>
-              <h3 className="font-bold text-slate-800">{cat.name}</h3>
+              <h3 className="font-bold text-slate-800 group-hover:text-primary transition-colors">{cat.name}</h3>
             </div>
           ))}
         </div>
