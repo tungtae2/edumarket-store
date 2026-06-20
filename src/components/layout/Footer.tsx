@@ -2,42 +2,27 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="col-span-1 md:col-span-2">
-          <Link href="/" className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl leading-none">E</span>
-            </div>
-            <span className="font-bold text-xl text-white">EduMarket</span>
+    <footer className="bg-surface-container-highest border-t-2 border-on-surface">
+      <div className="w-full px-lg py-xl flex flex-col md:flex-row justify-between items-center gap-md max-w-container-max mx-auto">
+        <div className="flex flex-col items-center md:items-start gap-xs">
+          <span className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface italic">EduAnime Market</span>
+          <p className="text-on-surface-variant font-label-sm text-label-sm">© 2024 EduAnime Market. Created with creative optimism.</p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-md">
+          <Link className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">About Us</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Terms of Service</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Privacy Policy</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Support</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Artist Guidelines</Link>
+        </div>
+        <div className="flex gap-sm">
+          <Link className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-on-surface bg-surface hover:scale-105 transition-transform" href="#">
+            <span className="material-symbols-outlined text-on-surface">share</span>
           </Link>
-          <p className="text-slate-400 mb-4 max-w-sm">
-            แหล่งรวมใบงานดิจิทัลคุณภาพสูงสำหรับคุณครู ผู้ปกครอง และติวเตอร์ เพื่อการศึกษาของเด็กไทย
-          </p>
+          <Link className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-on-surface bg-surface hover:scale-105 transition-transform" href="#">
+            <span className="material-symbols-outlined text-on-surface">mail</span>
+          </Link>
         </div>
-        
-        <div>
-          <h4 className="text-white font-bold mb-4">หมวดหมู่</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">คณิตศาสตร์</Link></li>
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">วิทยาศาสตร์</Link></li>
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">ภาษาไทย</Link></li>
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">ภาษาอังกฤษ</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-white font-bold mb-4">ช่วยเหลือ</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">วิธีการสั่งซื้อ</Link></li>
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">วิธีการดาวน์โหลด</Link></li>
-            <li><Link href="#" className="hover:text-indigo-400 transition-colors">ติดต่อเรา</Link></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className="container mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
-        <p>Copyright © {new Date().getFullYear()} EduMarket. All rights reserved.</p>
       </div>
     </footer>
   )

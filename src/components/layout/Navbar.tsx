@@ -1,9 +1,6 @@
 "use client";
 
 import Link from "next/link"
-import { Search, ShoppingCart, User, LogOut } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useCartStore } from "@/store/useCartStore"
 import { useEffect, useState } from "react"
 import { logout } from "@/app/actions/auth"
@@ -18,67 +15,54 @@ export function Navbar({ user }: { user?: SupabaseUser | null }) {
   }, [])
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl leading-none">E</span>
-            </div>
-            <span className="font-bold text-xl text-slate-800">EduMarket</span>
+    <header className="bg-surface border-b-2 border-on-surface shadow-[4px_4px_0px_0px_rgba(28,27,27,1)] sticky top-0 z-50">
+      <nav className="flex justify-between items-center px-lg py-md w-full max-w-container-max mx-auto">
+        <div className="flex items-center gap-xl">
+          <Link className="font-headline-lg text-headline-lg text-primary italic" href="/">
+            EduAnime Market
           </Link>
-          
-          <div className="hidden md:flex relative w-96">
-            <Input 
-              type="search" 
-              placeholder="ค้นหาใบงาน, วิชา, ระดับชั้น..." 
-              className="pl-10 bg-slate-50 border-slate-200 rounded-full focus-visible:ring-indigo-600"
-            />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+          <div className="hidden lg:flex gap-md">
+            <Link className="text-primary font-bold border-b-2 border-primary pb-1 font-label-sm text-label-sm" href="/">Browse</Link>
+            <Link className="text-on-surface-variant font-medium hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform duration-200 font-label-sm text-label-sm" href="/">Bundles</Link>
+            <Link className="text-on-surface-variant font-medium hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform duration-200 font-label-sm text-label-sm" href="/">Artists</Link>
+            <Link className="text-on-surface-variant font-medium hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform duration-200 font-label-sm text-label-sm" href="/">Events</Link>
           </div>
         </div>
-
-        <div className="flex items-center gap-4">
-        <Link href="/checkout">
-          <Button variant="ghost" size="icon" className="relative manga-border border-[1px] hover:bg-primary/10">
-            <ShoppingCart className="w-5 h-5 text-black" />
+        
+        <div className="flex items-center gap-md">
+          <Link href="/checkout" className="relative p-2 hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined text-on-surface">shopping_cart</span>
             {mounted && items.length > 0 && (
-              <span className="absolute top-0 right-0 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center -mt-1 -mr-1 manga-border border-[1px]">
+              <span className="absolute top-0 right-0 w-5 h-5 bg-error text-on-error text-[10px] font-bold rounded-full flex items-center justify-center -mt-1 -mr-1 border-2 border-on-surface">
                 {items.length}
               </span>
             )}
-          </Button>
-        </Link>
-        {user ? (
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-bold text-slate-700 hidden md:inline-block">
-              {user.user_metadata?.full_name || user.email}
-            </span>
-            <Button 
-              onClick={() => logout()}
-              variant="outline"
-              size="icon"
-              className="text-black hover:bg-red-50 hover:text-red-600 manga-border border-[1px] transition-all"
-            >
-              <LogOut className="w-4 h-4" />
-            </Button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Link href="/register">
-              <Button variant="outline" className="text-primary font-bold manga-border border-[2px] bg-white hover:bg-slate-50 transition-all">
-                สมัครสมาชิก
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button className="bg-secondary text-black hover:bg-secondary/90 font-bold manga-border shadow-[2px_2px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0_0_#000] transition-all">
-                เข้าสู่ระบบ
-              </Button>
-            </Link>
-          </div>
-        )}
-      </div>
-      </div>
-    </nav>
+          </Link>
+          
+          {user ? (
+            <div className="flex items-center gap-3 ml-2">
+              <span className="text-sm font-bold text-on-surface-variant hidden md:inline-block">
+                {user.user_metadata?.full_name || user.email}
+              </span>
+              <button 
+                onClick={() => logout()}
+                className="px-md py-sm font-bold text-error hover:text-on-error hover:bg-error rounded transition-colors"
+              >
+                Log Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link href="/login" className="px-md py-sm font-bold text-on-surface-variant hover:text-primary transition-colors">
+                Log In
+              </Link>
+              <Link href="/register" className="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg border-2 border-on-surface shadow-[4px_4px_0px_0px_rgba(28,27,27,1)] font-bold hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all active:translate-y-0 active:translate-x-0 btn-hover">
+                Join Now
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   )
 }

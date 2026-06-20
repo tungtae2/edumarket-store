@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
-import { Mali } from "next/font/google";
+import { Plus_Jakarta_Sans, Quicksand } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-const mali = Mali({
-  weight: ['400', '500', '600', '700'],
-  subsets: ["thai", "latin"],
-  variable: "--font-mali",
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+});
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  variable: "--font-quicksand",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +30,11 @@ export default async function RootLayout({
 
   return (
     <html lang="th" className="scroll-smooth">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+      </head>
       <body
-        className={`${mali.variable} font-sans antialiased bg-slate-50 flex flex-col min-h-screen`}
+        className={`${jakarta.variable} ${quicksand.variable} font-sans antialiased bg-surface text-on-surface flex flex-col min-h-screen`}
       >
         <Navbar user={user} />
         <main className="flex-grow">

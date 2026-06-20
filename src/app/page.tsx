@@ -1,14 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { WorksheetCard } from "@/components/ui/WorksheetCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, BookOpen, Calculator, Globe, Languages, ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
-
-
 
 export default async function Home() {
   const supabase = await createServerSupabaseClient();
@@ -21,94 +16,151 @@ export default async function Home() {
     subject: w.subject,
     gradeLevel: w.grade_level,
     price: w.price,
-    coverImageUrl: w.cover_image_url || "/anime_math_cover.png"
+    coverImageUrl: w.cover_image_url || "/hero_illustration.png"
   })) : [];
 
   return (
-    <div className="bg-[#FFFDF9] min-h-screen">
+    <main className="w-full">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 pt-24 pb-20 relative overflow-hidden manga-border border-b-4 border-l-0 border-r-0 border-t-0 rounded-none mb-12">
-        {/* Halftone Pattern (Simulated with CSS dots) */}
-        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(white_2px,transparent_0)] bg-[length:15px_15px]"></div>
-        
-        <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-          
-          {/* Left Content */}
-          <div className="text-center md:text-left flex-1">
-            <Badge className="bg-secondary text-black hover:bg-secondary/90 mb-6 px-4 py-2 text-sm font-bold manga-border shadow-[2px_2px_0_0_#000]">
-              🎉 แหล่งรวมใบงานที่ดีที่สุด
-            </Badge>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-[3px_3px_0_#000] leading-tight">
-              คลังใบงานดิจิทัล <br className="hidden md:block" />สำหรับคุณครูยุคใหม่
+      <section className="relative bg-primary-fixed py-xl md:py-32 overflow-hidden border-b-2 border-on-surface">
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(#00677d 1.5px, transparent 1.5px)", backgroundSize: "24px 24px" }}></div>
+        <div className="max-w-container-max mx-auto px-lg relative z-10 flex flex-col md:flex-row items-center gap-xl">
+          <div className="w-full md:w-1/2 space-y-md">
+            <span className="inline-block bg-tertiary-container text-on-tertiary-container px-md py-1 rounded-full text-label-sm font-label-sm border-2 border-on-surface">New Arrivals!</span>
+            <h1 className="font-display-lg text-display-lg text-on-surface leading-tight">
+              เรียนรู้สนุกกับ<br/><span className="text-primary underline decoration-secondary-container decoration-8">ใบงานสไตล์อนิเมะ!</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white font-medium mb-10 max-w-2xl drop-shadow-[2px_2px_0_#000]">
-              ดาวน์โหลดใบงานคุณภาพสูงพร้อมใช้ ประหยัดเวลาเตรียมการสอน สนับสนุนโดยเพื่อนครูทั่วประเทศ
+            <p className="text-body-md text-on-surface-variant max-w-md">
+              เปลี่ยนการเรียนให้เป็นเรื่องน่าตื่นเต้นด้วยใบงานคุณภาพสูงที่ออกแบบโดยศิลปินสายอนิเมะ ครอบคลุมวิชาหลักและทักษะพิเศษ
             </p>
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-              <Button size="lg" className="bg-secondary text-black hover:bg-secondary/90 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-manga shadow-manga-hover shadow-manga-active transition-all group">
-                ดูใบงานทั้งหมด <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button size="lg" className="bg-white text-black hover:bg-slate-100 font-bold text-lg rounded-full px-8 h-14 manga-border shadow-manga shadow-manga-hover shadow-manga-active transition-all">
-                หมวดหมู่ยอดฮิต
-              </Button>
+            <div className="flex flex-wrap gap-md pt-md">
+              <button className="bg-secondary-container text-on-secondary-container px-xl py-md rounded-xl border-2 border-on-surface shadow-[6px_6px_0px_0px_rgba(28,27,27,1)] font-headline-lg text-headline-lg-mobile hover:-translate-y-1 hover:-translate-x-1 transition-all">
+                Browse Now
+              </button>
+              <button className="bg-surface text-on-surface px-xl py-md rounded-xl border-2 border-on-surface hover:bg-surface-container-low transition-colors font-bold">
+                Free Samples
+              </button>
             </div>
           </div>
-
-          {/* Right Image */}
-          <div className="flex-1 flex justify-center md:justify-end mt-10 md:mt-0">
-            <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] animate-float">
-              <div className="absolute inset-0 bg-white rounded-full opacity-20 blur-3xl"></div>
+          <div className="w-full md:w-1/2 relative">
+            <div className="bg-surface-container-lowest border-2 border-on-surface rounded-2xl shadow-[12px_12px_0px_0px_#fdd404] overflow-hidden aspect-[4/3] relative">
               <Image 
-                src="/hero_illustration.png" 
-                alt="Happy Teacher and Students" 
-                fill 
-                className="object-contain drop-shadow-[4px_4px_0_rgba(0,0,0,0.8)]"
+                src="/hero_illustration.png"
+                alt="Anime student learning"
+                fill
+                className="object-cover"
                 priority
               />
             </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Categories */}
-      <section className="container mx-auto px-4 -mt-10 relative z-20 mb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { name: "คณิตศาสตร์", icon: Calculator, color: "bg-blue-100 text-blue-600" },
-            { name: "วิทยาศาสตร์", icon: Globe, color: "bg-green-100 text-green-600" },
-            { name: "ภาษาไทย", icon: BookOpen, color: "bg-red-100 text-red-600" },
-            { name: "ภาษาอังกฤษ", icon: Languages, color: "bg-yellow-100 text-yellow-600" },
-          ].map((cat, i) => (
-            <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col items-center justify-center cursor-pointer hover:shadow-manga hover:-translate-y-2 transition-all duration-300 group">
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
-                <cat.icon className="w-8 h-8" />
-              </div>
-              <h3 className="font-bold text-slate-800 group-hover:text-primary transition-colors">{cat.name}</h3>
+            {/* Decorative Element */}
+            <div className="absolute -top-4 -right-4 bg-tertiary text-on-tertiary p-md rounded-full border-2 border-on-surface shadow-[4px_4px_0px_0px_rgba(28,27,27,1)] animate-bounce">
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* Latest Section */}
-      <section className="container mx-auto px-4 mb-20">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-slate-800">ใบงานล่าสุด 🌟</h2>
-          <Button variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">ดูทั้งหมด</Button>
-        </div>
-        {worksheets.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {worksheets.map((ws) => (
-              <WorksheetCard key={ws.id} {...ws} />
-            ))}
+      {/* Main Content Area */}
+      <div className="max-w-container-max mx-auto px-lg flex flex-col md:flex-row py-xl gap-xl">
+        {/* SideNavBar */}
+        <aside className="md:w-64 flex-shrink-0">
+          <div className="sticky top-28 bg-surface-container-lowest border-2 border-on-surface rounded-xl p-md">
+            <div className="flex items-center gap-sm mb-md pb-md border-b-2 border-on-surface">
+              <div className="w-10 h-10 rounded-full border-2 border-on-surface bg-primary-fixed overflow-hidden relative">
+                <Image 
+                  src="/hero_illustration.png"
+                  alt="Mascot avatar"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="font-headline-lg-mobile text-on-surface text-lg">Library</h3>
+                <p className="text-label-sm text-on-surface-variant">Find your path</p>
+              </div>
+            </div>
+            <ul className="space-y-sm">
+              <li>
+                <Link className="flex items-center gap-sm text-on-secondary-container font-bold border-l-4 border-secondary-container pl-2 py-2 hover:bg-surface-container-highest transition-colors" href="#">
+                  <span className="material-symbols-outlined">grid_view</span>
+                  <span>All Subjects</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-sm text-on-surface-variant hover:text-primary pl-2 py-2 hover:bg-surface-container-highest transition-colors transition-transform hover:translate-x-1" href="#">
+                  <span className="material-symbols-outlined">calculate</span>
+                  <span>Mathematics</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-sm text-on-surface-variant hover:text-primary pl-2 py-2 hover:bg-surface-container-highest transition-colors transition-transform hover:translate-x-1" href="#">
+                  <span className="material-symbols-outlined">biotech</span>
+                  <span>Science & Tech</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-sm text-on-surface-variant hover:text-primary pl-2 py-2 hover:bg-surface-container-highest transition-colors transition-transform hover:translate-x-1" href="#">
+                  <span className="material-symbols-outlined">palette</span>
+                  <span>Arts & Crafts</span>
+                </Link>
+              </li>
+              <li>
+                <Link className="flex items-center gap-sm text-on-surface-variant hover:text-primary pl-2 py-2 hover:bg-surface-container-highest transition-colors transition-transform hover:translate-x-1" href="#">
+                  <span className="material-symbols-outlined">auto_awesome</span>
+                  <span>Japanese Culture</span>
+                </Link>
+              </li>
+            </ul>
+            <div className="mt-xl p-md bg-secondary-container rounded-lg border-2 border-on-surface">
+              <p className="font-bold text-on-secondary-container mb-sm">Get All Access</p>
+              <button className="w-full bg-on-surface text-surface py-2 rounded font-bold text-label-sm">Premium Pass</button>
+            </div>
           </div>
-        ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
-            <h3 className="text-2xl font-bold text-slate-400 mb-2">ยังไม่มีใบงานในระบบ</h3>
-            <p className="text-slate-500">รอติดตามผลงานใหม่ๆ ได้เร็วๆ นี้ครับ</p>
+        </aside>
+
+        {/* Worksheet Grid */}
+        <section className="flex-grow">
+          <div className="flex justify-between items-end mb-lg">
+            <div>
+              <h2 className="font-headline-lg text-on-surface">ใบงานยอดนิยม</h2>
+              <p className="text-on-surface-variant">เริ่มการเรียนรู้ที่สนุกที่สุดได้ที่นี่</p>
+            </div>
+            <div className="flex gap-sm">
+              <button className="p-sm border-2 border-on-surface bg-surface rounded hover:bg-surface-container-high">
+                <span className="material-symbols-outlined">filter_list</span>
+              </button>
+            </div>
           </div>
-        )}
-      </section>
-    </div>
+          
+          {worksheets.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+              {worksheets.map((ws) => (
+                <WorksheetCard key={ws.id} {...ws} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-surface-container-lowest rounded-3xl border-2 border-on-surface">
+              <h3 className="text-2xl font-bold text-on-surface-variant mb-2">ยังไม่มีใบงานในระบบ</h3>
+              <p className="text-on-surface-variant">รอติดตามผลงานใหม่ๆ ได้เร็วๆ นี้ครับ</p>
+            </div>
+          )}
+
+          {/* Load More Button */}
+          {worksheets.length > 0 && (
+            <div className="mt-xl text-center">
+              <button className="bg-surface-container-high text-on-surface px-xl py-md rounded-xl border-2 border-on-surface font-bold hover:bg-surface-dim transition-colors">
+                ดูใบงานทั้งหมด
+              </button>
+            </div>
+          )}
+        </section>
+      </div>
+
+      {/* Floating Action Button */}
+      <button className="fixed bottom-lg right-lg bg-secondary-container text-on-secondary-container p-md rounded-full border-2 border-on-surface shadow-[4px_4px_0px_0px_rgba(28,27,27,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all z-40 group">
+        <span className="material-symbols-outlined text-2xl">help_center</span>
+        <span className="absolute right-full mr-md top-1/2 -translate-y-1/2 bg-on-surface text-surface px-md py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">ติดต่อสอบถาม</span>
+      </button>
+    </main>
   );
 }
